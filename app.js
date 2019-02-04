@@ -4,17 +4,23 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const expressLayouts = require('express-ejs-layouts');
-
-
+const mongoose = require('mongoose');
+const db = require('./config');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
 
+// Connect to mongoose (edit /test for changing the name)
+mongoose.connect(db, { useNewUrlParser: true })
+  .then(() => console.log('connected'))
+  .catch(error => console.log('error', error));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-//layout setup
+
+// layout setup
 app.use(expressLayouts);
 app.set('layout', 'layouts/layout');
 
